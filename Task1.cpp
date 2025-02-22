@@ -45,8 +45,8 @@ void drawTriangle(std::vector<uint8_t>& image, int width, int height,
 	minY = std::min(std::max(minY, 0), height);
 	maxY = std::min(std::max(maxY, 0), height);
 
-	Eigen::Vector2f edge1 = t.screen[1] - t.screen[0];
-	Eigen::Vector2f edge2 = t.screen[2] - t.screen[0];
+	Eigen::Vector2f edge1 = t.screen[2] - t.screen[0];
+	Eigen::Vector2f edge2 = t.screen[1] - t.screen[0];
 	float triangleArea = 0.5f * vec2Cross(edge2, edge1);
 	if (triangleArea < 0) {
 		// Triangle is backfacing
@@ -215,11 +215,11 @@ int main()
 	Mesh dragonMesh = loadMeshFile(dragonFilename);
 
 
-	Eigen::Matrix4f bunnyTransform = translationMatrix(Eigen::Vector3f(-0.5f, -0.5f, 0.f));
+	Eigen::Matrix4f bunnyTransform = translationMatrix(Eigen::Vector3f(-0.5f, -0.5f, 0.f)) * rotateYMatrix(M_PI);
 
 	Eigen::Matrix4f dragonTransform =
 		translationMatrix(Eigen::Vector3f(0.3f, 0.1f, 0.0f))
-		* scaleMatrix(1.2f);
+		* scaleMatrix(1.2f) * rotateYMatrix(M_PI);
 
 	drawMesh(imageBuffer, bunnyMesh, Eigen::Vector3f(0.3, 1, 0.3), bunnyTransform, lights, width, height);
 	drawMesh(imageBuffer, dragonMesh, Eigen::Vector3f(0.3, 1, 1), dragonTransform, lights, width, height);
